@@ -9,21 +9,21 @@ class TodoModel extends ChangeNotifier {
       id: 1,
       title: "Sleep",
       dateTime: DateTime.now(),
-      rank: 'A',
+      priority: 'A',
       isFinished: false,
     ),
     Todo(
       id: 2,
       title: "Eat",
       dateTime: DateTime.now(),
-      rank: 'B',
+      priority: 'B',
       isFinished: false,
     ),
     Todo(
       id: 3,
       title: "Code",
       dateTime: DateTime.now(),
-      rank: 'C',
+      priority: 'C',
       isFinished: false,
     )
   ];

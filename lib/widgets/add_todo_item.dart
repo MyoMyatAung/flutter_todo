@@ -39,7 +39,7 @@ class AddTodoItem extends StatelessWidget {
                     id: todoList.length + 2,
                     title: titleController.text,
                     isFinished: false,
-                    rank: rankController.text,
+                    priority: rankController.text,
                     dateTime: DateTime.now()));
                 Navigator.of(context).pop();
               },

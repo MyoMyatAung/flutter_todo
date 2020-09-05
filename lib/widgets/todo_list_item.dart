@@ -14,9 +14,9 @@ class TodoListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Color rankColor;
-    if (todo.rank == 'A') {
+    if (todo.priority == 'A') {
       rankColor = Colors.red;
-    } else if (todo.rank == 'B') {
+    } else if (todo.priority == 'B') {
       rankColor = Colors.yellow;
     } else {
       rankColor = Colors.green;

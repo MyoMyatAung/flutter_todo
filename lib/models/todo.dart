@@ -4,14 +4,14 @@ class Todo {
   final int id;
   final String title;
   final DateTime dateTime;
-  final String rank;
+  final String priority;
   bool isFinished;
 
   Todo({
     @required this.id,
     @required this.title,
     @required this.dateTime,
-    @required this.rank,
+    @required this.priority,
     @required this.isFinished
   });
 }
