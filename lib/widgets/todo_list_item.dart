@@ -25,14 +25,14 @@ class TodoListItem extends StatelessWidget {
       children: [
         ListTile(
           leading: CircleAvatar(
-            backgroundColor: todo.isFinished == true
+            backgroundColor: todo.isFinished == 1
                 ? Colors.grey
                 : rankColor,
           ),
           title: Text(
             todo.title,
             style: TextStyle(
-              decoration: todo.isFinished == true
+              decoration: todo.isFinished == 1
                   ? TextDecoration.lineThrough
                   : null,
             ),
@@ -42,7 +42,7 @@ class TodoListItem extends StatelessWidget {
             color: Theme.of(context).primaryColorDark,
             icon: Icon(Icons.assignment_turned_in),
             onPressed: () {
-              Provider.of<TodoModel>(context,listen:false).finishTodo(index);
+              Provider.of<TodoModel>(context,listen:false).finishTodo(index, todo);
             },
           ),
         ),

@@ -10,9 +10,6 @@ class AddTodoItem extends StatelessWidget {
     final titleController = TextEditingController();
     final rankController = TextEditingController();
 
-    final List<Todo> todoList =
-        Provider.of<TodoModel>(context, listen: false).todos;
-
     return Card(
       child: Container(
         padding: EdgeInsets.all(10),
@@ -35,12 +32,10 @@ class AddTodoItem extends StatelessWidget {
               child: Text('Add Todo'),
               textColor: Theme.of(context).primaryColor,
               onPressed: () {
-                Provider.of<TodoModel>(context, listen: false).addTodo(Todo(
-                    id: todoList.length + 2,
-                    title: titleController.text,
-                    isFinished: false,
-                    priority: rankController.text,
-                    dateTime: DateTime.now()));
+                Provider.of<TodoModel>(context, listen: false).addTodo(
+                     titleController.text,
+                     rankController.text,
+                     DateTime.now());
                 Navigator.of(context).pop();
               },
             ),
