@@ -47,7 +47,7 @@ class TodoModel extends ChangeNotifier {
     });
   }
 
-  void addTodo(String title, String priority, DateTime dateTime) {
+  void addTodo(String title, String priority, DateTime dateTime, DateTime createdAt) {
     const url = 'http://${IPAddress.IP_ADDRESS}:3000/add_todo';
     http
         .post(url,
@@ -57,7 +57,8 @@ class TodoModel extends ChangeNotifier {
             body: json.encode({
               "title": title,
               "priority": priority,
-              "date_time": dateTime.toIso8601String()
+              "date_time": dateTime.toIso8601String(),
+              "created_at": createdAt.toIso8601String()
             }))
         .then((response) {
       final extractedData = json.decode(response.body) as Map<String, dynamic>;
@@ -66,7 +67,7 @@ class TodoModel extends ChangeNotifier {
         dateTime: dateTime,
         title: title,
         isFinished: 0,
-        createdAt: dateTime,
+        createdAt: createdAt,
         priority: priority,
       ));
       notifyListeners();
