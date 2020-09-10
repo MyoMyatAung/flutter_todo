@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo/screens/home.dart';
+import 'package:flutter_todo/screens/login.dart';
 import 'package:flutter_todo/services/todo_model.dart';
 import 'package:provider/provider.dart';
 
@@ -15,11 +16,11 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
           title: 'Flutter Demo',
           theme: ThemeData(
-            primarySwatch: Colors.indigo,
-            accentColor: Colors.indigoAccent,
+            primaryColor: Colors.blue,
+            accentColor: Colors.blueAccent,
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
-          home: Home()
+          home: Login()
       ),
     );
   }

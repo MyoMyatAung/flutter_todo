@@ -22,7 +22,11 @@ class Home extends StatelessWidget {
         onPressed: () {
           showModalToAddTodo(context);
         },
-        child: Icon(Icons.add),
+        backgroundColor: Colors.blue,
+        child: Icon(
+          Icons.add,
+          color: Colors.white,
+        ),
       ),
     );
   }

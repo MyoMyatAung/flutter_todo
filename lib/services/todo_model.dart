@@ -15,16 +15,17 @@ class TodoModel extends ChangeNotifier {
     const url = 'http://${IPAddress.IP_ADDRESS}:3000/get_all_todos';
     try {
       final response = await http.get(url);
-      final extractedData = json.decode(response.body) as List<Object>;
+      final List<Object> extractedData = json.decode(response.body) as List<Object>;
+      print(extractedData);
       List<Todo> loadedTodoList = [];
       extractedData.forEach((json) {
-        final todo = Todo.fromJson(json);
+        final Todo todo = Todo.fromJson(json);
         loadedTodoList.add(todo);
       });
       _todos = loadedTodoList;
       notifyListeners();
     } catch (error) {
-      throw error;
+      print(error);
     }
   }
 

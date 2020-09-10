@@ -39,7 +39,7 @@ class TodoListItem extends StatelessWidget {
           ),
           subtitle: Text(DateFormat().format(todo.dateTime)),
           trailing: IconButton(
-            color: Theme.of(context).primaryColorDark,
+            color: Colors.blue,
             icon: Icon(Icons.assignment_turned_in),
             onPressed: () {
               Provider.of<TodoModel>(context,listen:false).finishTodo(index, todo);

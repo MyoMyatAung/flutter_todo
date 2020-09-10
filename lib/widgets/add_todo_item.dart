@@ -61,7 +61,7 @@ class _AddTodoItemState extends State<AddTodoItem> {
                       IconButton(
                         icon: Icon(
                           Icons.date_range,
-                          color: Theme.of(context).primaryColor,
+                          color: Colors.blue,
                         ),
                         onPressed: () {
                           showDatePickerDialog(context);
@@ -75,7 +75,7 @@ class _AddTodoItemState extends State<AddTodoItem> {
                 ),
                 FlatButton(
                   child: Text('Add Todo'),
-                  textColor: Theme.of(context).primaryColor,
+                  textColor: Colors.blue,
                   onPressed: () {
                     Provider.of<TodoModel>(context, listen: false).addTodo(
                         titleController.text,
