@@ -1,7 +1,44 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo/screens/login.dart';
+import 'package:flutter_todo/services/auth.dart';
+import 'package:flutter_todo/static/ip_address.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class SignUp extends StatelessWidget {
+
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  void displayDialog(BuildContext context, String title, String text){
+    showDialog(context: context,builder: (context){
+      return AlertDialog(
+        title: Text(title),
+        content: Text(text),
+      );
+    },);
+  }
+
+
+
+  void submit(BuildContext context, String username, String password) async{
+
+    if(username.length < 4){
+      displayDialog(context, "Invalid Username", "The username should be at least 5 characters");
+    }else if(password.length < 4){
+      displayDialog(context, "Weak password", "The password length should be at least 5 characters");
+    }else{
+      var res = await Provider.of<AuthProvider>(context, listen: false).attemptSignUp(username, password);
+      if(res == 201){
+        displayDialog(context, "Success", "The user was created. Login now");
+      }else if(res == 409){
+        displayDialog(context, "Signup Fail", "This user is already registered");
+      }else{
+        displayDialog(context, "Error", "Unknown Error occured");
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,6 +87,7 @@ class SignUp extends StatelessWidget {
                   labelText: "Username",
                   hasFloatingPlaceholder: true,
                 ),
+                controller: _usernameController,
               ),
             ),
             Padding(
@@ -63,6 +101,7 @@ class SignUp extends StatelessWidget {
                   labelText: "Password",
                   hasFloatingPlaceholder: true,
                 ),
+                controller: _passwordController,
               ),
             ),
             Container(
@@ -97,7 +136,10 @@ class SignUp extends StatelessWidget {
                         topLeft: Radius.circular(30.0),
                         bottomLeft: Radius.circular(30.0))),
                 onPressed: () {
+                  final username = _usernameController.text;
+                  final password = _passwordController.text;
 
+                  submit(context, username, password);
                 },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,

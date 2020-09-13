@@ -1,7 +1,58 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_todo/screens/home.dart';
 import 'package:flutter_todo/screens/signup.dart';
+import 'package:flutter_todo/services/auth.dart';
+import 'package:flutter_todo/static/ip_address.dart';
+import 'package:flutter_todo/static/secure_storage.dart';
+import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class Login extends StatelessWidget {
+  final _usernameController = TextEditingController();
+  final _passwordController = TextEditingController();
+
+  void displayDialog(BuildContext context, String title, String text) {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: Text(title),
+          content: Text(text),
+        );
+      },
+    );
+  }
+
+  void submit(BuildContext context, String username, String password) async {
+    var jwt = await Provider.of<AuthProvider>(context, listen: false)
+        .attemptLogin(username, password);
+    if (jwt != null) {
+      SecureStorage.storage.write(key: "jwt", value: jwt);
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) {
+            return Home(
+              jwt: jwt,
+              payload: json.decode(
+                ascii.decode(
+                  base64.decode(
+                    base64.normalize(jwt.split(".")[1]),
+                  ),
+                ),
+              ),
+            );
+          },
+        ),
+      );
+    } else {
+      displayDialog(context, "An Error Occured",
+          "No account was found matching that username and password");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,6 +101,7 @@ class Login extends StatelessWidget {
                   labelText: "Username",
                   hasFloatingPlaceholder: true,
                 ),
+                controller: _usernameController,
               ),
             ),
             Padding(
@@ -63,6 +115,7 @@ class Login extends StatelessWidget {
                   labelText: "Password",
                   hasFloatingPlaceholder: true,
                 ),
+                controller: _passwordController,
               ),
             ),
             Container(
@@ -77,7 +130,8 @@ class Login extends StatelessWidget {
               child: FlatButton(
                 child: Text('Create Account?'),
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) {
                     return SignUp();
                   }));
                 },
@@ -96,7 +150,11 @@ class Login extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(30.0),
                         bottomLeft: Radius.circular(30.0))),
-                onPressed: () {},
+                onPressed: () {
+                  final username = _usernameController.text;
+                  final password = _passwordController.text;
+                  submit(context, username, password);
+                },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
