@@ -36,6 +36,7 @@ class Home extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Flutter Todo'),
+        elevation: 0,
       ),
       body: TodoList(),
       floatingActionButton: FloatingActionButton(

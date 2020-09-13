@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo/screens/login.dart';
 import 'package:flutter_todo/services/auth.dart';
-import 'package:flutter_todo/static/ip_address.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
 class SignUp extends StatelessWidget {
@@ -130,6 +128,7 @@ class SignUp extends StatelessWidget {
               child: RaisedButton(
                 padding: const EdgeInsets.fromLTRB(40.0, 8.0, 30.0, 8.0),
                 color: Colors.blue,
+                textColor: Colors.white,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.only(

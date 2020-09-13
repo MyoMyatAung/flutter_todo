@@ -1,9 +1,11 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter_todo/models/todo.dart';
 import 'package:flutter_todo/static/ip_address.dart';
+import 'package:flutter_todo/static/secure_storage.dart';
 import 'package:http/http.dart' as http;
 
 class TodoModel extends ChangeNotifier {
@@ -13,8 +15,9 @@ class TodoModel extends ChangeNotifier {
 
   Future<void> fetchAllTodos() async {
     const url = 'http://${IPAddress.IP_ADDRESS}:3000/get_all_todos';
+    String jwt = await SecureStorage.storage.read(key: 'jwt');
     try {
-      final response = await http.get(url);
+      final response = await http.get(url, headers: {HttpHeaders.authorizationHeader: 'Bearer $jwt'});
       final List<Object> extractedData = json.decode(response.body) as List<Object>;
       print(extractedData);
       List<Todo> loadedTodoList = [];
@@ -29,8 +32,9 @@ class TodoModel extends ChangeNotifier {
     }
   }
 
-  void finishTodo(int index, Todo todo) {
+  void finishTodo(int index, Todo todo) async {
     final url = 'http://${IPAddress.IP_ADDRESS}:3000/update_finished/${todo.id}';
+    String jwt = await SecureStorage.storage.read(key: 'jwt');
     int isFinished;
     if (_todos[index].isFinished == 1) {
       isFinished = 0;
@@ -40,6 +44,7 @@ class TodoModel extends ChangeNotifier {
     http.put(url,
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
+          HttpHeaders.authorizationHeader: 'Bearer $jwt'
         },
         body: json.encode({"isFinished": isFinished}))
       .then((response){
@@ -48,12 +53,14 @@ class TodoModel extends ChangeNotifier {
     });
   }
 
-  void addTodo(String title, String priority, DateTime dateTime, DateTime createdAt) {
+  void addTodo(String title, String priority, DateTime dateTime, DateTime createdAt) async {
     const url = 'http://${IPAddress.IP_ADDRESS}:3000/add_todo';
+    String jwt = await SecureStorage.storage.read(key: 'jwt');
     http
         .post(url,
             headers: <String, String>{
               'Content-Type': 'application/json; charset=UTF-8',
+              HttpHeaders.authorizationHeader: 'Bearer $jwt'
             },
             body: json.encode({
               "title": title,
