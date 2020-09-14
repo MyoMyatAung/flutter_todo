@@ -15,6 +15,7 @@ class Todo {
     this.dateTime,
     this.priority,
     this.isFinished,
+    this.userId,
     this.createdAt,
   });
 
@@ -23,6 +24,7 @@ class Todo {
   DateTime dateTime;
   String priority;
   int isFinished;
+  int userId;
   DateTime createdAt;
 
   factory Todo.fromJson(Map<String, dynamic> json) => Todo(
@@ -31,6 +33,7 @@ class Todo {
     dateTime: DateTime.parse(json["date_time"]),
     priority: json["priority"],
     isFinished: json["is_finished"],
+    userId: json["user_id"],
     createdAt: DateTime.parse(json["created_at"]),
   );
 
@@ -40,6 +43,7 @@ class Todo {
     "date_time": dateTime.toIso8601String(),
     "priority": priority,
     "is_finished": isFinished,
+    "user_id": userId,
     "created_at": createdAt.toIso8601String(),
   };
 }

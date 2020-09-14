@@ -32,11 +32,11 @@ class Home extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print('Payload is : ');
     print(payload);
     return Scaffold(
       appBar: AppBar(
         title: Text('Flutter Todo'),
-        elevation: 0,
       ),
       body: TodoList(),
       floatingActionButton: FloatingActionButton(

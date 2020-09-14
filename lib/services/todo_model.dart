@@ -14,7 +14,9 @@ class TodoModel extends ChangeNotifier {
   UnmodifiableListView<Todo> get todos => UnmodifiableListView(_todos);
 
   Future<void> fetchAllTodos() async {
-    const url = 'http://${IPAddress.IP_ADDRESS}:3000/get_all_todos';
+    final userId = await SecureStorage.storage.read(key: "user_id");
+    print(userId);
+    final url = 'http://${IPAddress.IP_ADDRESS}:3000/get_all_todos/$userId';
     String jwt = await SecureStorage.storage.read(key: 'jwt');
     try {
       final response = await http.get(url, headers: {HttpHeaders.authorizationHeader: 'Bearer $jwt'});
@@ -56,6 +58,7 @@ class TodoModel extends ChangeNotifier {
   void addTodo(String title, String priority, DateTime dateTime, DateTime createdAt) async {
     const url = 'http://${IPAddress.IP_ADDRESS}:3000/add_todo';
     String jwt = await SecureStorage.storage.read(key: 'jwt');
+    final userId = await SecureStorage.storage.read(key: 'user_id');
     http
         .post(url,
             headers: <String, String>{
@@ -66,6 +69,7 @@ class TodoModel extends ChangeNotifier {
               "title": title,
               "priority": priority,
               "date_time": dateTime.toIso8601String(),
+              "userId": int.parse(userId),
               "created_at": createdAt.toIso8601String()
             }))
         .then((response) {

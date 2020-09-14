@@ -24,23 +24,26 @@ class Login extends StatelessWidget {
   }
 
   void submit(BuildContext context, String username, String password) async {
+    print('Clicked');
     var jwt = await Provider.of<AuthProvider>(context, listen: false)
         .attemptLogin(username, password);
     if (jwt != null) {
-      SecureStorage.storage.write(key: "jwt", value: jwt);
+      await SecureStorage.storage.write(key: "jwt", value: jwt);
+      var payload = json.decode(
+        ascii.decode(
+          base64.decode(
+            base64.normalize(jwt.split(".")[1]),
+          ),
+        ),
+      );
+      await SecureStorage.storage.write(key: "user_id", value: payload['id'].toString());
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (context) {
             return Home(
               jwt: jwt,
-              payload: json.decode(
-                ascii.decode(
-                  base64.decode(
-                    base64.normalize(jwt.split(".")[1]),
-                  ),
-                ),
-              ),
+              payload: payload,
             );
           },
         ),
